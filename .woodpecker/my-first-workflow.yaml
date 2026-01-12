@@ -2,36 +2,7 @@ when:
   - event: manual
 
 steps:
-  - name: host-info
+  - name: show-directory
     image: scratch
     commands:
-      - echo "=== HOST MACHINE INFORMATION ==="
-      - echo "User: $(whoami)"
-      - echo "Hostname: $(hostname)"
-      - echo "Working Directory: $(pwd)"
-      - echo "Home Directory: $HOME"
-      - echo "Shell: $SHELL"
-      - echo "=============================="
-
-  - name: host-commands
-    image: scratch
-    commands:
-      - echo "=== RUNNING HOST COMMANDS ==="
-      - echo "Current date: $(date)"
-      - echo "Uptime: $(uptime -p)"
-      - echo "Memory usage:"
-      - free -h
-      - echo "Disk usage:"
-      - df -h /
-      - echo "=============================="
-
-  - name: file-operations
-    image: scratch
-    commands:
-      - echo "=== FILE OPERATIONS ==="
-      - mkdir -p /tmp/woodpecker-test
-      - echo "Hello from Woodpecker on host!" > /tmp/woodpecker-test/hello.txt
-      - echo "Created file:"
-      - cat /tmp/woodpecker-test/hello.txt
-      - echo "File contents verified successfully!"
-      - echo "=============================="
+      - pwd
