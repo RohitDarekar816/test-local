@@ -13,3 +13,11 @@ steps:
       - echo "=== ENVIRONMENT VARIABLES ==="
       - env | grep WOODPECKER || echo "No Woodpecker environment variables found"
       - echo "==================================="
+
+  - name: test-file-access
+    image: sh
+    commands:
+      - echo "=== TESTING FILE ACCESS ==="
+      - echo "Attempting to cat /home/rohit/README.md:"
+      - cat /home/rohit/README.md || echo "File not found or permission denied"
+      - echo "==================================="
