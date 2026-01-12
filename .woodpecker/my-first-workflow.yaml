@@ -2,13 +2,12 @@ when:
   - event: push
     branch: master
 
-clone:
-  git:
-    image: woodpeckerci/plugin-git
-    settings:
-      lfs: false
+skip_clone: true
 
 steps:
-  - name: show-directory
+  - name: clone-and-pwd
     commands:
+      - echo "Cloning repository manually..."
+      - git clone https://gitea.hivefinty.com/admin/test-local.git .
+      - echo "Current working directory:"
       - pwd
