@@ -1,5 +1,6 @@
 when:
-  - event: manual
+  - event: push
+    branch: master
 
 clone:
   git:
@@ -9,6 +10,6 @@ clone:
 
 steps:
   - name: show-directory
-    image: scratch
+    image: alpine:latest
     commands:
       - pwd
