@@ -9,11 +9,15 @@ steps:
       - echo "This is the build step"
       - echo "binary-data-123" > executable
       - chmod +x executable
-  - name: a-test-step
+      - echo "Created executable with content:"
+      - cat executable
+  - name: test-commands
     image: alpine:latest
     commands:
-      - echo "Testing ..."
-      - ./executable
+      - echo "Testing basic commands..."
       - whoami
       - pwd
       - ls -la
+      - echo "Testing executable creation in this step:"
+      - echo "test-data" > test-file
+      - cat test-file
