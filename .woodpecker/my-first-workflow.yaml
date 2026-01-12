@@ -5,9 +5,10 @@ when:
 skip_clone: true
 
 steps:
-  - name: clone-and-pwd
+  - name: show-directory
     commands:
-      - echo "Cloning repository manually..."
-      - git clone https://gitea.hivefinty.com/admin/test-local.git .
-      - echo "Current working directory:"
+      - echo "=== HOST MACHINE WORKING DIRECTORY ==="
       - pwd
+      - echo "=== ENVIRONMENT VARIABLES ==="
+      - env | grep WOODPECKER || echo "No Woodpecker environment variables found"
+      - echo "==================================="
