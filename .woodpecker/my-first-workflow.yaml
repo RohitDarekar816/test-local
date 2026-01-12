@@ -10,6 +10,5 @@ clone:
 
 steps:
   - name: show-directory
-    image: alpine:latest
     commands:
       - pwd
