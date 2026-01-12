@@ -19,5 +19,5 @@ steps:
     commands:
       - echo "=== TESTING FILE ACCESS ==="
       - echo "Attempting to cat /home/rohit/README.md:"
-      - cat /home/rohit/README.md || echo "File not found or permission denied"
+      - cat /root/test-local/README-Woodpecker-Installer.md || echo "File not found or permission denied"
       - echo "==================================="
