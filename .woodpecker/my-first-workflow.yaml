@@ -1,14 +1,13 @@
 when:
   - event: manual
 
-steps:
-  - name: clone-repo
-    image: woodpeckerci/plugin-git:2.7.0
+clone:
+  git:
+    image: woodpeckerci/plugin-git
     settings:
-      remote: https://gitea.hivefinty.com/admin/test-local.git
-      branch: master
       lfs: false
 
+steps:
   - name: show-directory
     image: scratch
     commands:
