@@ -6,6 +6,7 @@ skip_clone: true
 
 steps:
   - name: show-directory
+    image: sh
     commands:
       - echo "=== HOST MACHINE WORKING DIRECTORY ==="
       - pwd
