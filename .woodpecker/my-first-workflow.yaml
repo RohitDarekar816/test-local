@@ -4,7 +4,7 @@ when:
 
 steps:
   - name: host-info
-    image: *no-image*
+    image: scratch
     commands:
       - echo "=== HOST MACHINE INFORMATION ==="
       - echo "User: $(whoami)"
@@ -15,7 +15,7 @@ steps:
       - echo "=============================="
 
   - name: host-commands
-    image: *no-image*
+    image: scratch
     commands:
       - echo "=== RUNNING HOST COMMANDS ==="
       - echo "Current date: $(date)"
@@ -27,7 +27,7 @@ steps:
       - echo "=============================="
 
   - name: file-operations
-    image: *no-image*
+    image: scratch
     commands:
       - echo "=== FILE OPERATIONS ==="
       - mkdir -p /tmp/woodpecker-test
