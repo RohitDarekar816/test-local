@@ -1,6 +1,5 @@
 when:
-  - event: push
-    branch: master
+  - event: manual
 
 steps:
   - name: host-info
