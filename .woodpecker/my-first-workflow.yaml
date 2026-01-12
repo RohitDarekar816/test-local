@@ -3,21 +3,36 @@ when:
     branch: master
 
 steps:
-  - name: build
-    image: alpine:latest
+  - name: host-info
+    image: *no-image*
     commands:
-      - echo "This is the build step"
-      - echo "binary-data-123" > executable
-      - chmod +x executable
-      - echo "Created executable with content:"
-      - cat executable
-  - name: test-commands
-    image: alpine:latest
+      - echo "=== HOST MACHINE INFORMATION ==="
+      - echo "User: $(whoami)"
+      - echo "Hostname: $(hostname)"
+      - echo "Working Directory: $(pwd)"
+      - echo "Home Directory: $HOME"
+      - echo "Shell: $SHELL"
+      - echo "=============================="
+
+  - name: host-commands
+    image: *no-image*
     commands:
-      - echo "Testing basic commands..."
-      - whoami
-      - pwd
-      - ls -la
-      - echo "Testing executable creation in this step:"
-      - echo "test-data" > test-file
-      - cat test-file
+      - echo "=== RUNNING HOST COMMANDS ==="
+      - echo "Current date: $(date)"
+      - echo "Uptime: $(uptime -p)"
+      - echo "Memory usage:"
+      - free -h
+      - echo "Disk usage:"
+      - df -h /
+      - echo "=============================="
+
+  - name: file-operations
+    image: *no-image*
+    commands:
+      - echo "=== FILE OPERATIONS ==="
+      - mkdir -p /tmp/woodpecker-test
+      - echo "Hello from Woodpecker on host!" > /tmp/woodpecker-test/hello.txt
+      - echo "Created file:"
+      - cat /tmp/woodpecker-test/hello.txt
+      - echo "File contents verified successfully!"
+      - echo "=============================="
