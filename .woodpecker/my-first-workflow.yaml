@@ -1,4 +1,6 @@
 when:
+  - event: manual
+    branch: master
   - event: push
     branch: master
 
