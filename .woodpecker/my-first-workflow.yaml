@@ -10,4 +10,5 @@ steps:
     commands:
       - git clone https://admin:admin@gitea.hivefinty.com/admin/cartlog-admin.git
       - cd cartlog-admin
+      - echo "start code review"
       - qodo code_review --ci
