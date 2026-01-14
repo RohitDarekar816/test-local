@@ -10,14 +10,11 @@ steps:
   - name: show-directory
     image: sh
     commands:
-      - git clone https://admin:admin@gitea.hivefinty.com/admin/code_review_webhook.git
-      - cd code_review_webhook
-      - echo "start code review"
-      - whoami
+      - git clone https://admin:admin@gitea.hivefinty.com/admin/cartlog-admin.git
+      - cd cartlog-admin
       - export QODO_API_KEY="$QODO_API_KEY"
       - export ROCKETCHAT_WEBHOOK_URL="$ROCKETCHAT_WEBHOOK_URL"
       - qodo code_review --ci
-      #- git remote add mirror https://github.com/RohitDarekar816/mirror_pushing.git
     environment:
       QODO_API_KEY:
         from_secret: QODO_API_KEY
