@@ -8,7 +8,7 @@ steps:
   - name: show-directory
     image: sh
     commands:
-      - git clone https://admin:admin@gitea.hivefinty.com/admin/cartlog-admin.git
+      - git clone https://admin:admin@gitea.hivefinty.com/admin/code_review_webhook.git
       - cd cartlog-admin
       - echo "start code review"
       - whoami
