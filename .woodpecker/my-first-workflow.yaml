@@ -14,7 +14,12 @@ steps:
       - cd code_review_webhook
       - echo "start code review"
       - whoami
-      - export QODO_API_KEY="${QODO_API_KEY}"
-      - export ROCKETCHAT_WEBHOOK_URL="${ROCKETCHAT_WEBHOOK_URL}"
+      - export QODO_API_KEY="$QODO_API_KEY"
+      - export ROCKETCHAT_WEBHOOK_URL="$ROCKETCHAT_WEBHOOK_URL"
       - qodo code_review --ci
       #- git remote add mirror https://github.com/RohitDarekar816/mirror_pushing.git
+    environment:
+      QODO_API_KEY:
+        from_secret: QODO_API_KEY
+      ROCKETCHAT_WEBHOOK_URL:
+        from_secret: ROCKETCHAT_WEBHOOK_URL
