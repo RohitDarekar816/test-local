@@ -10,8 +10,8 @@ steps:
   - name: show-directory
     image: sh
     commands:
-      - git clone https://admin:admin@gitea.hivefinty.com/admin/cartlog-admin.git
-      - cd cartlog-admin
+      - git clone https://admin:admin@gitea.hivefinty.com/admin/test-local.git
+      - cd test-local
       - export QODO_API_KEY="$QODO_API_KEY"
       - export ROCKETCHAT_WEBHOOK_URL="$ROCKETCHAT_WEBHOOK_URL"
       - qodo code_review --ci
