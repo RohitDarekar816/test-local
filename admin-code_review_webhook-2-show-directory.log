@@ -1,0 +1,226 @@
++ git clone https://admin:admin@gitea.hivefinty.com/admin/code_review_webhook.git
+Cloning into 'code_review_webhook'...
++ cd code_review_webhook
++ echo "start code review"
+start code review
++ whoami
+root
++ export QODO_API_KEY="sk-r0wn7EaqRtTesmP1fbHulV6nfFZCW_md81h-LbQlgNU-Dxg6wZP2I0U7V2Zjb7ygumXtZlibboP9fPE58697ues"
++ qodo code_review --ci
+Initializing Qodo Agent...
+Reading agent protocol...
+⚠️ Warning: Failed to import agents/code-review.toml: Failed to read file: /tmp/woodpecker-local-1904151086/workspace/code_review_webhook/agents/code-review.toml. ENOENT: no such file or directory, open '/tmp/woodpecker-local-1904151086/workspace/code_review_webhook/agents/code-review.toml'
+AGENTS.md file not found in the current folder, consider running 'qodo init'.
+Initializing MCP Servers...
+Successfully initialized 9 MCP Servers: [ripgrep, filesystem, git, shell, web_search, qodo_aware_context_retriever, qodo_merge, chat_history, todo_list]
+Auto-approve mode is enabled. All tools will be automatically approved.
+[2J[H
+
+
+
+ Welcome to Qodo Command (Beta)                                               
+ Session ID: 20260114-44b15269-ae6c-4785-be1c-4b1dd4d82b3a                    
+ Model: claude-4.5-sonnet                                                     
+ Remaining messages and tool calls: 225 (resets in 30 days)                   
+
+> code_review
+
+I'll help you perform a code review. Let me start by exploring the repository
+structure to understand what we're working with.
+
+Check which directories are accessible for the code review
++- list_allowed_directories
+
+`--- [OK] Success: [
+         "/tmp/woodpecker-local-1904151086/workspace/code_review_webhook"
+       ]
+
+Get an overview of the repository structure to understand the codebase layout
++- directory_tree
+|-- path: /tmp/woodpecker-local-1904151086/workspace/code_review_webhook
+|-- maxDepth: 3
+
+`--- [OK] Success: {
+         "name": "code_review_webhook",
+         "type": "directory",
+         "children": [
+           {
+       ...
+
+List files in the root directory to see what files are present
++- list_files_in_directories
+|-- paths: /tmp/woodpecker-local-1904151086/workspace/code_review_webhook
+
+`--- [OK] Success: === /tmp/woodpecker-local-1904151086/workspace/code_review_webhook ===
+       [DIR] .gi...
+
+Check git status to see if there are any uncommitted changes to review
++- git_status
+|-- repo_path: /tmp/woodpecker-local-1904151086/workspace/code_review_webhook
+
+`--- [OK] Success: ## master...origin/master
+       
+
+Check recent commits to understand what changes need to be reviewed
++- git_log
+|-- repo_path: /tmp/woodpecker-local-1904151086/workspace/code_review_webhook
+|-- max_count: 5
+
+`--- [OK] Success: eabf98448f6316172ba0baeb9d1d7f14f04f6511|Rohit Darekar|2026-01-14 23:24:51 +0530...
+
+Get the diff of the last 5 commits to review the recent changes
++- git_diff
+|-- repo_path: /tmp/woodpecker-local-1904151086/workspace/code_review_webhook
+|-- target: HEAD~5
+
+`--- [OK] Success: diff --git a/.woodpecker/my-first-workflow.yaml b/.woodpecker/my-first-workflow....
+
+Now let me check the git status and see what changes need to be reviewed:
+
+Check for any unstaged changes that need to be reviewed
++- git_diff_unstaged
+|-- repo_path: /tmp/woodpecker-local-1904151086/workspace/code_review_webhook
+
+`--- [OK] Success: No output
+
+Check for any staged changes that need to be reviewed
++- git_diff_staged
+|-- repo_path: /tmp/woodpecker-local-1904151086/workspace/code_review_webhook
+
+`--- [OK] Success: No output
+
+Let me use the Qodo Merge review tool to perform a comprehensive code review on
+the recent changes:
+
+Use Qodo Merge to perform a comprehensive code review on the last 5 commits to
+analyze all recent changes
++- review
+|-- command: improve
+|-- pr_title: Code Review: Recent Changes to Woodpecker CI Configuration and Agent Setup
+|-- pr_description: Review of recent commits including Woodpecker CI configuration updates, agent setup, and reposito...
+|-- repo_path: /tmp/woodpecker-local-1904151086/workspace/code_review_webhook
+|-- git_diff_command: HEAD~5
+
+`--- [OK] Success: Getting the appropriate diff
+
++- git_diff_files
+|-- repo_path: /tmp/woodpecker-local-1904151086/workspace/code_review_webhook
+|-- target: HEAD~5
+
+`--- [OK] Success: {
+         ".woodpecker/my-first-workflow.yaml": [
+           "when:\n  - event: push\n    bra...
+
+Use Qodo Merge to perform a comprehensive code review on the last 5 commits to
+analyze all recent changes
++- review
+|-- command: improve
+|-- pr_title: Code Review: Recent Changes to Woodpecker CI Configuration and Agent Setup
+|-- pr_description: Review of recent commits including Woodpecker CI configuration updates, agent setup, and reposito...
+|-- repo_path: /tmp/woodpecker-local-1904151086/workspace/code_review_webhook
+|-- git_diff_command: HEAD~5
+|-- diff: [object Object]
+
+`--- [OK] Success: ## PR Code Suggestions ✨
+       
+       <table><thead><tr><td><strong>Category</strong></td><t...
+
+Perfect! I've completed a comprehensive code review using Qodo Merge. Let me now
+create a structured summary of the findings:
+
+## Code Review Summary
+
+### Overview
+I've reviewed the last 5 commits in the repository, which include:
+- Woodpecker CI configuration updates
+- Agent setup and configuration files
+- Repository structure changes
+
+### Critical Security Issues Found: 3
+
+#### 🚨 **HIGH PRIORITY - Security Vulnerabilities**
+
+1. **Hard-coded RocketChat Webhook Secret** (Impact: High)
+   - **Location**: `agents/agents/code-review/agent.toml` lines 37-45
+- **Issue**: The RocketChat webhook URL with authentication token is hard-coded
+in the configuration file
+- **Risk**: Exposed webhook credentials in version control can be exploited by
+unauthorized parties
+- **Recommendation**: Remove the hard-coded URL and use environment variables or
+CI secrets instead
+
+2. **Exposed QODO API Key in CI Configuration** (Impact: High)
+   - **Location**: `.woodpecker/my-first-workflow.yaml` lines 17-18
+   - **Issue**: The QODO_API_KEY is hard-coded directly in the workflow file
+- **Risk**: API key exposure in version control allows unauthorized access to
+Qodo services
+- **Recommendation**: Use Woodpecker secrets and add validation to ensure the
+key is set
+
+3. **Duplicate Webhook Secret in YAML Config** (Impact: Medium)
+   - **Location**: `agents/agents/code-review/agent.yaml` lines 62-63
+- **Issue**: Same RocketChat webhook URL is also hard-coded in the YAML
+configuration
+- **Recommendation**: Default to empty string and require runtime configuration
+via secrets
+
+### Additional Issues Found: 5
+
+#### ⚠️ **Configuration & Code Quality Issues**
+
+4. **Invalid YAML Syntax** (Impact: Medium)
+   - **Location**: `agents/agents/openssf-scorecard-fixer/agent.yaml` line 1
+   - **Issue**: YAML header uses `/version` instead of `version`
+   - **Fix**: Remove the leading slash
+
+5. **Potential Division by Zero** (Impact: Low)
+- **Location**: `agents/agents/package-health-reviewer/examples/ci/Jenkinsfile`
+lines 232-235
+   - **Issue**: Percentage calculations don't handle zero total counts
+   - **Recommendation**: Add safe parsing and zero-check guards
+
+6. **Fragile Download Parsing** (Impact: Low)
+- **Location**:
+`agents/agents/package-health-reviewer/examples/scripts/snyk-advisor-scraper.js`
+lines 291-307
+- **Issue**: Download count parsing doesn't handle all formats (B/M/K suffixes)
+   - **Recommendation**: Use regex-based normalization for robust parsing
+
+7. **Missing Version Field** (Impact: Low)
+   - **Location**: `agents/agents/qodo-cover/agent.toml` lines 1-2
+   - **Issue**: Missing `version = "1.0"` field for consistency
+   - **Recommendation**: Add version field to match other agent configs
+
+8. **Performance Issue - Expensive DOM Scan** (Impact: Low)
+- **Location**:
+`agents/agents/package-health-reviewer/examples/scripts/snyk-advisor-scraper.js`
+lines 116-121
+   - **Issue**: Using `querySelectorAll('*')` scans entire DOM unnecessarily
+   - **Recommendation**: Use targeted selectors or body text search
+
+9. **Corrupted Character Encoding** (Impact: Low)
+   - **Location**: `agents/agents/tdd/junit5/agent.toml` lines 102-107
+   - **Issue**: Corrupted tree glyph `├���─` in documentation
+   - **Fix**: Replace with correct `├──` sequence
+
+### Recommendations
+
+**Immediate Actions Required:**
+1. ✅ **Remove all hard-coded secrets** from version control
+2. ✅ **Rotate exposed credentials** (RocketChat webhook, QODO API key)
+3. ✅ **Implement secret management** using CI/CD platform secrets
+4. ✅ **Fix YAML syntax error** to prevent parsing failures
+
+**Best Practices:**
+- Use environment variables for all sensitive configuration
+- Add validation checks for required secrets in CI workflows
+- Implement pre-commit hooks to prevent secret commits
+- Consider using tools like `git-secrets` or `trufflehog` for secret scanning
+
+### Approval Status
+**❌ Changes Required** - Critical security issues must be addressed before
+merging.
+
+The code review has identified serious security vulnerabilities that need
+immediate attention. The exposed API keys and webhook URLs should be removed
+from version control and the credentials should be rotated.

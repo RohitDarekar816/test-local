@@ -40,7 +40,7 @@ arguments = [
     { name = "include_suggestions", type = "boolean", required = false, default = true, description = "Include improvement suggestions" },
     { name = "focus_areas", type = "string", required = false, description = "Comma-separated list of focus areas (security, performance, maintainability)" },
     { name = "exclude_files", type = "string", required = false, description = "Comma-separated list of file patterns to exclude" },
-    { name = "rocketchat_webhook", type = "string", required = false, default = "https://rocketchat.flirtmetricsplatform.com/hooks/6967d3a3f093ef2ebfa21bb4/dpQmt68eiP5hBfgqCMiWCEkv49uor8PWLZKKSvXQYmAFS5AF", description = "RocketChat webhook URL for notifications" },
+    { name = "rocketchat_webhook", type = "string", required = false, default = "${ROCKETCHAT_WEBHOOK_URL}", description = "RocketChat webhook URL for notifications" },
     { name = "notify_rocketchat", type = "boolean", required = false, default = true, description = "Send code review report to RocketChat" }
 ]
 

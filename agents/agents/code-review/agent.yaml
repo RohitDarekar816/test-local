@@ -59,7 +59,7 @@ commands:
       - name: "rocketchat_webhook"
         type: "string"
         required: false
-        default: "https://rocketchat.flirtmetricsplatform.com/hooks/6967d3a3f093ef2ebfa21bb4/dpQmt68eiP5hBfgqCMiWCEkv49uor8PWLZKKSvXQYmAFS5AF"
+        default: "${ROCKETCHAT_WEBHOOK_URL}"
         description: "RocketChat webhook URL for notifications"
       - name: "notify_rocketchat"
         type: "boolean"
