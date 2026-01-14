@@ -8,16 +8,7 @@ steps:
   - name: show-directory
     image: sh
     commands:
-      - echo "=== HOST MACHINE WORKING DIRECTORY ==="
+      - git clone https://admin:admin@gitea.hivefinty.com/admin/cartlog-admin.git
+      - cd cartlog-admin
+      - ls
       - pwd
-      - echo "=== ENVIRONMENT VARIABLES ==="
-      - env | grep WOODPECKER || echo "No Woodpecker environment variables found"
-      - echo "==================================="
-
-  - name: test-file-access
-    image: sh
-    commands:
-      - echo "=== TESTING FILE ACCESS ==="
-      - echo "Attempting to cat /home/rohit/README.md:"
-      - cat /root/test-local/README-Woodpecker-Installer.md || echo "File not found or permission denied"
-      - echo "==================================="
