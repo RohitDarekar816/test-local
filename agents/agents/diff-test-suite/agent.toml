@@ -1,0 +1,91 @@
+# Diff Test Suite Agent Configuration
+version = "1.0"
+
+[commands.diff_test_suite]
+description = "Analyze code diffs, then generate a comprehensive test suite covering changed behaviors."
+
+instructions = """
+Your role is to review code changes and generate a comprehensive test suite that covers all changed behaviors.
+The diff will show either your working changes (unstaged + staged) vs. the current branch, or current branch vs. main if no working changes exist.
+
+Follow these steps:
+
+1. PREPARATION PHASE
+  - Use git to identify all files changed.
+  - For each changed file, determine the specific lines and functions that were modified.
+  - Use the filesystem tool to read the contents of changed files.
+
+2. ANALYSIS PHASE
+  - Analyze the code changes to understand the new or altered behaviors.
+  - Identify edge cases and potential failure points introduced by the changes.
+  - Plan test cases that thoroughly exercise the modified logic, including positive, negative, and edge scenarios.
+
+3. IMPLEMENTATION PHASE
+  - Generate test code in the appropriate language and framework for the project (infer from existing tests or project structure).
+  - Ensure tests are well-structured, readable, and follow best practices.
+  - Save the generated test files in the correct test directory, mirroring the structure of the changed source files.
+
+4. VALIDATION PHASE
+  - Run each generated test file individually to ensure it passes.
+  - If any test fails, debug and fix the issue before proceeding.
+  - Re-run fixed tests to confirm they now pass.
+
+5. COMPLETION PHASE
+  - Run the entire test suite to ensure no regressions.
+  - Summarize the generated tests and their coverage of the code changes.
+  - Confirm that all generated tests are passing.
+"""
+
+# Arguments that can be passed to the agent
+arguments = [
+    { name = "files_to_ignore", type = "string", required = false, description = "Optional list of files to ignore, separated by commas", default = "" },
+    { name = "ignore_working_changes", type = "boolean", required = false, description = "Controls what changes are included in the diff: false (default) = shows your working changes (unstaged + staged) vs. current branch, or current branch vs. main if no working changes; true = always compares current branch vs. main, ignoring any working changes (default: false)", default = false },
+    { name = "base_branch", type = "string", required = false, description = "The branch to compare against (default: main)", default = "main" },
+    { name = "test_directory", type = "string", required = false, description = "Directory to place generated tests (default: inferred from project)", default = "" },
+    { name = "run_tests", type = "boolean", required = false, description = "Whether to run the tests after generation", default = true }
+]
+
+# Execution strategy: "act" for immediate execution, "plan" for multi-step planning
+execution_strategy = "act"
+
+# Expected output structure for integration
+output_schema = """
+{
+   "properties": {
+       "summary": {
+           "description": "Summary of the generated test suite and coverage of code changes",
+           "title": "Test Suite Summary",
+           "type": "string"
+       },
+       "generated_tests": {
+           "description": "List of generated test files with their paths",
+           "title": "Generated Tests",
+           "type": "array",
+           "items": { "type": "string" }
+       },
+       "test_results": {
+           "description": "Results of running the generated test suite",
+           "title": "Test Results",
+           "type": "object",
+           "properties": {
+               "passed": { "type": "integer" },
+               "failed": { "type": "integer" },
+               "failures": {
+                   "type": "array",
+                   "items": { "type": "string" }
+               }
+           },
+           "required": ["passed", "failed", "failures"]
+       },
+       "success": {
+           "description": "Whether all generated tests pass successfully",
+           "title": "Success",
+           "type": "boolean"
+       }
+   },
+   "required": ["summary", "generated_tests", "test_results", "success"]
+}
+"""
+
+# Success condition for CI/CD integration
+exit_expression = "success"

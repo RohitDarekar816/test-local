@@ -1,0 +1,30 @@
+name: Diff Test Suite Agent
+on:
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  generate-tests:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run diff test suite agent
+        uses: qodo-ai/command@v1
+        env:
+          QODO_API_KEY: ${{ secrets.QODO_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          prompt: diff-test-suite
+          agent-file: path/to/agent.toml
+          key-value-pairs: |
+            base_branch=${{ github.base_ref }}
+            files_to_ignore=package-lock.json,*.md
+            run_tests=true
