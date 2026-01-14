@@ -11,7 +11,7 @@ steps:
     image: sh
     commands:
       - git clone https://admin:admin@gitea.hivefinty.com/admin/code_review_webhook.git
-      - cd cartlog-admin
+      - cd code_review_webhook
       - echo "start code review"
       - whoami
       - export QODO_API_KEY="sk-r0wn7EaqRtTesmP1fbHulV6nfFZCW_md81h-LbQlgNU-Dxg6wZP2I0U7V2Zjb7ygumXtZlibboP9fPE58697ues"
