@@ -10,5 +10,4 @@ steps:
     commands:
       - git clone https://admin:admin@gitea.hivefinty.com/admin/cartlog-admin.git
       - cd cartlog-admin
-      - ls
-      - pwd
+      - qodo code_review --ci
