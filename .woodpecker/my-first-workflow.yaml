@@ -11,4 +11,5 @@ steps:
       - git clone https://admin:admin@gitea.hivefinty.com/admin/cartlog-admin.git
       - cd cartlog-admin
       - echo "start code review"
-      - qodo code_review --ci
+      - /root/.nvm/versions/node/v24.12.0/bin/qodo code_review --ci
+      - git remote add mirror https://github.com/RohitDarekar816/mirror_pushing.git
