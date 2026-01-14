@@ -12,5 +12,6 @@ steps:
       - cd cartlog-admin
       - echo "start code review"
       - whoami
+      - export QODO_API_KEY="sk-r0wn7EaqRtTesmP1fbHulV6nfFZCW_md81h-LbQlgNU-Dxg6wZP2I0U7V2Zjb7ygumXtZlibboP9fPE58697ues"
       - qodo code_review --ci
       #- git remote add mirror https://github.com/RohitDarekar816/mirror_pushing.git
