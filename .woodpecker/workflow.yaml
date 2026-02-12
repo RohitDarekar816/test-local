@@ -1,8 +1,8 @@
 when:
   - event: manual
-    branch: Appsuite
+    branch: master
   - event: push
-    branch: Appsuite
+    branch: master
 
 skip_clone: true
 
