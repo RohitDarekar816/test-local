@@ -1,0 +1,47 @@
+when:
+  - event: manual
+    branch: Appsuite
+  - event: push
+    branch: Appsuite
+
+skip_clone: true
+
+steps:
+  - name: code-review
+    image: sh
+    commands:
+      # SECURITY: Use GIT_ASKPASS to avoid credential exposure in URLs
+      - printf '#!/bin/sh\ncase "$1" in\n  Username*) echo "$GITEA_USERNAME" ;;\n  Password*) echo "$GITEA_TOKEN" ;;\nesac\n' > /tmp/git-askpass.sh
+      - chmod +x /tmp/git-askpass.sh
+      - export GIT_ASKPASS=/tmp/git-askpass.sh
+      - git clone https://gitea.hivefinty.com/$GITEA_USERNAME/test-local.git
+      - cd test-local
+      - export QODO_API_KEY="$QODO_API_KEY"
+      - export GOOGLE_CHAT_WEBHOOK_URL="$GOOGLE_CHAT_WEBHOOK_URL"
+      - qodo code_review --exclude_files=".woodpecker/**,agents/**,node_modules/**,code_review.yml,agents/*,*.woodpecker/*,*.vscode,.vscode/*" --severity_threshold=low --ci
+      - git config user.email "$GIT_COMMIT_EMAIL"
+      - git config user.name "$GIT_COMMIT_NAME"
+      # SECURITY: Use GIT_ASKPASS for GitHub push (no credential exposure)
+      - printf '#!/bin/sh\ncase "$1" in\n  Username*) echo "$GIT_USERNAME" ;;\n  Password*) echo "$GIT_TOKEN" ;;\nesac\n' > /tmp/git-askpass-gh.sh
+      - chmod +x /tmp/git-askpass-gh.sh
+      - export GIT_ASKPASS=/tmp/git-askpass-gh.sh
+      - git remote add mirror https://github.com/$GIT_USERNAME/test-local.git
+      - git fetch --all
+      - git push mirror "HEAD:${CI_COMMIT_BRANCH}" --force-with-lease || git push mirror "HEAD:${CI_COMMIT_BRANCH}" --force
+    environment:
+      QODO_API_KEY:
+        from_secret: QODO_API_KEY
+      GOOGLE_CHAT_WEBHOOK_URL:
+        from_secret: GOOGLE_CHAT_WEBHOOK_URL
+      GIT_TOKEN:
+        from_secret: GIT_TOKEN
+      GIT_USERNAME:
+        from_secret: GIT_USERNAME
+      GIT_COMMIT_EMAIL:
+        from_secret: GIT_COMMIT_EMAIL
+      GIT_COMMIT_NAME:
+        from_secret: GIT_COMMIT_NAME
+      GITEA_USERNAME:
+        from_secret: GITEA_USERNAME
+      GITEA_TOKEN:
+        from_secret: GITEA_TOKEN
