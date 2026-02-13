@@ -21,13 +21,14 @@ steps:
       # SECURITY: Add GitHub credentials to credential store
       - echo "https://$GIT_USERNAME:$GIT_TOKEN@github.com" > ~/.git-credentials
       - chmod 600 ~/.git-credentials
+      # Fetch all refs from origin to ensure we have complete history
+      - git fetch origin --prune --unshallow || git fetch origin --prune
       # Remove existing remote if it exists and add mirror
       - git remote remove mirror 2>/dev/null || true
       - git remote add mirror https://github.com/$GIT_USERNAME/test-local.git
-      # Fetch remote refs first to avoid stale info
-      - git fetch mirror --prune || true
-      # Force push to mirror
-      - git push mirror "HEAD:${CI_COMMIT_BRANCH}" --force
+      # Push all refs to mirror (complete mirror sync)
+      - git push mirror --all --force
+      - git push mirror --tags --force
     environment:
       QODO_API_KEY:
         from_secret: QODO_API_KEY
