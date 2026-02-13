@@ -19,7 +19,6 @@ steps:
       # SECURITY: Add GitHub credentials to credential store
       - echo "https://$GIT_USERNAME:$GIT_TOKEN@github.com" >> ~/.git-credentials
       - git remote add mirror https://github.com/$GIT_USERNAME/test-local.git
-      - git fetch --all
       # SECURITY FIX: Avoid force-push, use --force-with-lease for safety
       - git push mirror "HEAD:${CI_COMMIT_BRANCH}" --force-with-lease || git push mirror "HEAD:${CI_COMMIT_BRANCH}" --force
     environment:
