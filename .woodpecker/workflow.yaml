@@ -11,21 +11,22 @@ steps:
     image: sh
     commands:
       # SECURITY: Configure git credential helper to avoid token exposure in logs
-      - git config --global credential.helper store
-      - echo "https://$GITEA_USERNAME:$GITEA_TOKEN@gitea.hivefinty.com" > ~/.git-credentials
-      - trap 'rm -f ~/.git-credentials; git config --global --unset credential.helper' EXIT
-      - git clone https://gitea.hivefinty.com/$GITEA_USERNAME/test-local.git
-      - cd test-local
+      #      - git config --global credential.helper store
+      #      - echo "https://$GITEA_USERNAME:$GITEA_TOKEN@gitea.hivefinty.com" > ~/.git-credentials
+      #      - trap 'rm -f ~/.git-credentials; git config --global --unset credential.helper' EXIT
+      #      - git clone https://gitea.hivefinty.com/$GITEA_USERNAME/test-local.git
+      #      - cd test-local
+      - pwd && ls
       - export QODO_API_KEY="$QODO_API_KEY"
       - export GOOGLE_CHAT_WEBHOOK_URL="$GOOGLE_CHAT_WEBHOOK_URL"
       #      - qodo code_review --exclude_files=".woodpecker/**,agents/**,node_modules/**,code_review.yml,agents/*,*.woodpecker/*,*.vscode,.vscode/*" --severity_threshold=low --ci
       - git config user.email "$GIT_COMMIT_EMAIL"
       - git config user.name "$GIT_COMMIT_NAME"
       # SECURITY: Add GitHub credentials to credential store
-      - echo "https://$GIT_USERNAME:$GIT_TOKEN@github.com" >> ~/.git-credentials
-      - git remote add mirror https://github.com/$GIT_USERNAME/test-local.git
-      - git fetch --all
-      # SECURITY FIX: Avoid force-push, use --force-with-lease for safety
+    #      - echo "https://$GIT_USERNAME:$GIT_TOKEN@github.com" >> ~/.git-credentials
+    #      - git remote add mirror https://github.com/$GIT_USERNAME/test-local.git
+    #      - git fetch --all
+    # SECURITY FIX: Avoid force-push, use --force-with-lease for safety
     #      - git push mirror "HEAD:${CI_COMMIT_BRANCH}" --force-with-lease || git push mirror "HEAD:${CI_COMMIT_BRANCH}" --force
     environment:
       QODO_API_KEY:
