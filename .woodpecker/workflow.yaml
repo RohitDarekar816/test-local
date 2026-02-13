@@ -17,6 +17,7 @@ steps:
       - git config user.email "$GIT_COMMIT_EMAIL"
       - git config user.name "$GIT_COMMIT_NAME"
       # SECURITY: Add GitHub credentials to credential store
+      - git config --global credential.helper store
       - echo "https://$GIT_USERNAME:$GIT_TOKEN@github.com" >> ~/.git-credentials
       - git remote add mirror https://github.com/$GIT_USERNAME/test-local.git
       # SECURITY FIX: Avoid force-push, use --force-with-lease for safety
