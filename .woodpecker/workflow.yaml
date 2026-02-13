@@ -18,8 +18,9 @@ steps:
       - git config --global credential.helper store
       - git config --global user.email "$GIT_COMMIT_EMAIL"
       - git config --global user.name "$GIT_COMMIT_NAME"
-      # SECURITY: Add GitHub credentials to credential store
-      - echo "https://$GIT_USERNAME:$GIT_TOKEN@github.com" > ~/.git-credentials
+      # SECURITY: Add credentials for both Gitea (origin) and GitHub (mirror) to credential store
+      - echo "https://$GITEA_USERNAME:$GITEA_PASSWORD@gitea.hivefinty.com" > ~/.git-credentials
+      - echo "https://$GIT_USERNAME:$GIT_TOKEN@github.com" >> ~/.git-credentials
       - chmod 600 ~/.git-credentials
       # Fetch all refs from origin to ensure we have complete history
       - git fetch origin --prune --unshallow || git fetch origin --prune
@@ -42,3 +43,7 @@ steps:
         from_secret: GIT_COMMIT_EMAIL
       GIT_COMMIT_NAME:
         from_secret: GIT_COMMIT_NAME
+      GITEA_USERNAME:
+        from_secret: GITEA_USERNAME
+      GITEA_PASSWORD:
+        from_secret: GITEA_TOKEN
